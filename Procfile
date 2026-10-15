@@ -1,0 +1,1 @@
+web: gunicorn main_application_file:app
