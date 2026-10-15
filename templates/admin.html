@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin - Ctrl + Teach</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+<div class="container mt-5">
+    <div class="d-flex justify-content-between mb-4">
+        <h2 class="text-danger">Admin Control Panel</h2>
+        <a href="/logout" class="btn btn-outline-dark">Log Out</a>
+    </div>
+    
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card shadow p-3 mb-4">
+                <h4>All Users</h4>
+                <ul class="list-group">
+                    {% for u in users %}
+                        <li class="list-group-item">{{ u.name }} - <strong>{{ u.role }}</strong> ({{ u.email }})</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card shadow p-3 mb-4">
+                <h4>All Bookings</h4>
+                <ul class="list-group">
+                    {% for b in bookings %}
+                        <li class="list-group-item">
+                            {{ b.student.name }} booked {{ b.course.title }} <br>
+                            <small class="text-muted">Status: {{ b.status }} | Payment: {{ b.payment_status }}</small>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

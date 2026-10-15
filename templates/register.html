@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Register - Ctrl + Teach</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .fade-in { animation: fadeIn 0.8s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .bg-image { background: url('https://images.unsplash.com/photo-1523240795612-9a054b0db644?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80') center/cover; }
+        .btn-hover { transition: transform 0.2s; }
+        .btn-hover:hover { transform: scale(1.05); }
+    </style>
+</head>
+<body class="bg-light">
+<div class="container-fluid vh-100 fade-in">
+    <div class="row h-100">
+        <div class="col-md-6 d-flex align-items-center justify-content-center">
+            <div class="card shadow border-0 p-5 w-75 rounded-4">
+                <h2 class="text-center mb-4 text-primary fw-bold">Join Ctrl + Teach</h2>
+                <form method="POST" action="/register">
+                    <div class="mb-3">
+                        <label class="form-label text-muted">Full Name</label>
+                        <input type="text" name="name" class="form-control form-control-lg" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label text-muted">Email Address</label>
+                        <input type="email" name="email" class="form-control form-control-lg" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label text-muted">Password</label>
+                        <input type="password" name="password" class="form-control form-control-lg" required>
+                    </div>
+                    <div class="mb-4">
+                        <label class="form-label text-muted">I am a...</label>
+                        <select name="role" class="form-select form-select-lg">
+                            <option value="student">Student</option>
+                            <option value="tutor">Tutor</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-lg w-100 btn-hover rounded-pill">Create Account</button>
+                </form>
+                <p class="text-center mt-4"><a href="/login" class="text-decoration-none text-secondary">Already have an account? <strong>Log in</strong></a></p>
+            </div>
+        </div>
+        <div class="col-md-6 bg-image d-none d-md-block"></div>
+    </div>
+</div>
+</body>
+</html>
