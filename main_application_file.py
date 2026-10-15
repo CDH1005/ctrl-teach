@@ -230,7 +230,7 @@ with app.app_context():
         master_admin = User(
             name='System Admin',
             email='admin@ctrlteach.com',
-            password=generate_password_hash('admin123'),
+            password_hash=generate_password_hash('admin123'),
             role='admin'
         )
         db.session.add(master_admin)
