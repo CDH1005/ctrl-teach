@@ -213,5 +213,30 @@ def admin_dashboard():
     all_bookings = Booking.query.all()
     return render_template('admin.html', users=all_users, bookings=all_bookings)
 
+# Automatically create database tables and seed subjects on startup
+with app.app_context():
+    db.create_all()
+    
+    # If the Subject table is empty, seed it with our list
+    if not Subject.query.first():
+        new_subjects = [
+            Subject(name='Japanese', category='Foreign Language'),
+            Subject(name='Filipino', category='Foreign Language'),
+            Subject(name='German', category='Foreign Language'),
+            Subject(name='Spanish', category='Foreign Language'),
+            Subject(name='Welsh', category='Foreign Language'),
+            Subject(name='Calculus', category='Math'),
+            Subject(name='Algebra', category='Math'),
+            Subject(name='Physics', category='Science'),
+            Subject(name='Biology', category='Science'),
+            Subject(name='English Literature', category='English'),
+            Subject(name='World History', category='Social Studies'),
+            Subject(name='Microcontroller Robotics', category='Engineering'),
+            Subject(name='Verilog Digital Logic', category='Computer Science'),
+            Subject(name='C++ Programming', category='Computer Science')
+        ]
+        db.session.add_all(new_subjects)
+        db.session.commit()
+
 if __name__ == '__main__':
     app.run(debug=True)
