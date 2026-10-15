@@ -216,6 +216,33 @@ def admin_dashboard():
 # Automatically create database tables and seed subjects on startup
 with app.app_context():
     db.create_all()
+
+    from werkzeug.security import generate_password_hash # Add this at the very top of your file if you don't have it
+
+# ... (your other code) ...
+
+# Automatically create database tables, an admin, and seed subjects
+with app.app_context():
+    db.create_all()
+    
+    # 1. Create a Master Admin account if it doesn't exist
+    if not User.query.filter_by(email='admin@ctrlteach.com').first():
+        master_admin = User(
+            name='System Admin',
+            email='admin@ctrlteach.com',
+            password=generate_password_hash('admin123'),
+            role='admin'
+        )
+        db.session.add(master_admin)
+        db.session.commit()
+    
+    # 2. Seed Subjects if empty
+    if not Subject.query.first():
+        new_subjects = [
+            # ... (Keep your existing subject list here) ...
+        ]
+        db.session.add_all(new_subjects)
+        db.session.commit()
     
     # If the Subject table is empty, seed it with our list
     if not Subject.query.first():
