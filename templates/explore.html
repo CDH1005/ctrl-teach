@@ -37,35 +37,89 @@
     
     <div class="row g-4">
         {% for course in courses %}
-        <div class="col-md-4">
-            <div class="card shadow-sm h-100 hover-lift bg-white">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-                        <span class="badge bg-info text-dark px-3 py-2 rounded-pill">{{ course.subject.name }}</span>
-                        <h5 class="text-success fw-bold mb-0">₱{{ course.hourly_rate }}/hr</h5>
-                    </div>
-                    <h5 class="card-title fw-bold">{{ course.title }}</h5>
-                    <div class="d-flex align-items-center mt-3 mb-3">
-                        <!-- Generates a random face for the tutor -->
-                        <img src="https://i.pravatar.cc/150?u={{ course.tutor.id }}" class="tutor-avatar me-3" alt="Tutor">
-                        <div>
-                            <p class="mb-0 fw-bold">{{ course.tutor.name }}</p>
-                            <small class="text-muted"><i class="fas fa-shield-check text-success"></i> Verified Tutor</small>
-                        </div>
-                    </div>
-                    <p class="card-text text-muted">{{ course.description[:100] }}...</p>
-                </div>
-                <div class="card-footer bg-transparent border-0 pb-4 px-4">
-                    <a href="/book/{{ course.id }}" class="btn btn-primary w-100 rounded-pill py-2 fw-bold">Book Session</a>
-                </div>
-            </div>
+<div class="col-md-6 col-lg-4 mb-4">
+  <div class="card card-rounded shadow-sm hover-lift h-100">
+    <div class="card-body p-4 d-flex flex-column">
+      <h5 class="fw-bold">{{ course.title }}</h5>
+      
+      <!-- Tutor Profile Clickable Trigger -->
+      <div class="d-flex align-items-center mb-3 mt-2 p-2 bg-light rounded-3" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#tutorModal{{ course.id }}">
+        <div class="bg-primary text-white rounded-circle d-flex justify-content-center align-items-center me-3" style="width: 40px; height: 40px;">
+          <i class="bi bi-person-fill"></i>
         </div>
-        {% else %}
-        <div class="col-12 text-center py-5">
-            <i class="fas fa-search fa-3x text-muted mb-3"></i>
-            <h4 class="text-muted">No active courses found right now. Check back soon!</h4>
+        <div>
+          <!-- Pulls the tutor's name based on relationship -->
+          <h6 class="mb-0 fw-bold text-primary">{{ course.tutor.name }}</h6>
+          <small class="text-muted"><i class="bi bi-search"></i> View Credentials</small>
         </div>
-        {% endfor %}
+      </div>
+
+      <p class="text-muted small">{{ course.summary }}</p>
+
+      <!-- View Full Course Details Button -->
+      <button class="btn btn-outline-primary w-100 rounded-pill mt-auto" data-bs-toggle="modal" data-bs-target="#courseModal{{ course.id }}">
+        View Full Details
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ================= MODALS (Hidden until clicked) ================= -->
+
+<!-- 1. Tutor Credentials Modal -->
+<div class="modal fade" id="tutorModal{{ course.id }}" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-0 shadow">
+      <div class="modal-header bg-primary text-white border-0">
+        <h5 class="modal-title fw-bold"><i class="bi bi-award text-warning me-2"></i> Tutor Profile</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body p-4 text-center">
+        <div class="bg-primary text-white rounded-circle d-flex justify-content-center align-items-center mx-auto mb-3" style="width: 80px; height: 80px; font-size: 2rem;">
+          <i class="bi bi-person-fill"></i>
+        </div>
+        <h4 class="fw-bold mb-1">{{ course.tutor.name }}</h4>
+        <span class="badge bg-light text-dark mb-4">Verified Tutor</span>
+        
+        <div class="text-start bg-light p-4 rounded-3 shadow-sm">
+          <h6 class="fw-bold text-secondary text-uppercase" style="font-size: 0.8rem;">Credentials & Background</h6>
+          <!-- Assuming you have a 'credentials' column in your User table -->
+          <p class="mb-0 text-dark">{{ course.tutor.credentials or "This tutor is verified by Ctrl + Teach but hasn't added a detailed background yet." }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 2. Full Course Details Modal -->
+<div class="modal fade" id="courseModal{{ course.id }}" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content border-0 shadow">
+      <div class="modal-header bg-dark text-white border-0">
+        <h5 class="modal-title fw-bold">Course Details</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body p-4 p-md-5">
+        <h3 class="fw-bold mb-3">{{ course.title }}</h3>
+        <div class="d-flex gap-2 mb-4">
+           <span class="badge bg-primary p-2">Instructor: {{ course.tutor.name }}</span>
+        </div>
+        
+        <h5 class="fw-bold text-secondary">What this course offers:</h5>
+        <div class="bg-light p-4 rounded-3 mt-3 shadow-sm">
+          <!-- Assuming you have a 'description' or 'offerings' column in your Course table -->
+          <p class="mb-0 text-dark" style="white-space: pre-line;">{{ course.description }}</p>
+        </div>
+      </div>
+      <div class="modal-footer border-0">
+        <button type="button" class="btn btn-secondary rounded-pill px-4" data-bs-dismiss="modal">Close</button>
+        <!-- Keep your existing booking route -->
+        <a href="/book/{{ course.id }}" class="btn btn-primary rounded-pill px-4">Book Session</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endfor %}
     </div>
 </div>
 </body>
