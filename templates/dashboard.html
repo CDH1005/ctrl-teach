@@ -118,16 +118,46 @@
     <!-- Schedule -->
     <div class="col-lg-7">
       <h4 class="fw-bold mb-4">Your Schedule</h4>
-      <div class="card card-rounded shadow-sm border-0 h-100">
-        <div class="card-body p-5 text-center d-flex flex-column justify-content-center align-items-center">
-          <div class="empty-state-icon">
-            <i class="bi bi-journal-x text-primary" style="font-size: 3rem;"></i>
+      
+      {% if current_user.bookings %}
+        <!-- Dynamic Bookings List -->
+        <div class="row g-3">
+          {% for booking in current_user.bookings %}
+          <div class="col-12">
+            <div class="card card-rounded shadow-sm border-0 hover-lift h-100">
+              <div class="card-body p-4 d-flex justify-content-between align-items-center">
+                <div class="d-flex align-items-center gap-3">
+                  <div class="bg-primary bg-opacity-10 text-primary rounded-circle d-flex justify-content-center align-items-center fs-4 shadow-sm" style="width: 55px; height: 55px;">
+                    <i class="bi bi-journal-text"></i>
+                  </div>
+                  <div>
+                    <h5 class="fw-bold mb-1">{{ booking.course.title }}</h5>
+                    <p class="text-muted small mb-0"><i class="bi bi-person-badge me-1"></i> Tutor: {{ booking.course.tutor.name }}</p>
+                  </div>
+                </div>
+                <div class="text-end">
+                  <span class="badge bg-success rounded-pill px-3 py-2 mb-2 shadow-sm"><i class="bi bi-check-circle me-1"></i> Confirmed & Paid</span>
+                  <br>
+                  <button class="btn btn-sm btn-primary rounded-pill px-4 fw-semibold"><i class="bi bi-camera-video me-1"></i> Join Room</button>
+                </div>
+              </div>
+            </div>
           </div>
-          <h4 class="fw-bold text-dark">Your schedule is clear!</h4>
-          <p class="text-muted mb-4 max-w-sm mx-auto">You don't have any upcoming tutoring sessions booked.</p>
-          <a href="/explore" class="btn btn-primary px-5 py-2 fw-semibold rounded-pill hover-lift">Find a Tutor</a>
+          {% endfor %}
         </div>
-      </div>
+      {% else %}
+        <!-- Empty State -->
+        <div class="card card-rounded shadow-sm border-0 h-100">
+          <div class="card-body p-5 text-center d-flex flex-column justify-content-center align-items-center">
+            <div class="empty-state-icon">
+              <i class="bi bi-journal-x text-primary" style="font-size: 3rem;"></i>
+            </div>
+            <h4 class="fw-bold text-dark">Your schedule is clear!</h4>
+            <p class="text-muted mb-4 max-w-sm mx-auto">You don't have any upcoming tutoring sessions booked.</p>
+            <a href="/explore" class="btn btn-primary px-5 py-2 fw-semibold rounded-pill hover-lift">Find a Tutor</a>
+          </div>
+        </div>
+      {% endif %}
     </div>
     
     <!-- Trending -->
@@ -257,34 +287,55 @@
     </div>
     <div class="card-body p-4 p-md-5">
       <div class="position-relative ms-2">
-        <!-- Vertical Line (The Timeline Spine) -->
+        <!-- Vertical Timeline Line -->
         <div class="position-absolute h-100 border-start border-2 border-primary opacity-50" style="left: 6px; top: 10px;"></div>
         
-        <!-- Timeline Item 1 (Today/Tomorrow) -->
+        <!-- 1. LIVE DATABASE ENTRIES (Real Bookings appear at the top) -->
+        {% for course in current_user.courses %}
+          {% for booking in course.bookings %}
+            <div class="position-relative mb-5 ps-4">
+              <!-- Green dot for live bookings -->
+              <div class="position-absolute bg-success rounded-circle shadow-sm" style="width: 14px; height: 14px; left: 0; top: 6px;"></div>
+              <div class="d-flex justify-content-between align-items-start mb-1">
+                <h6 class="fw-bold mb-0 text-dark">{{ course.title }}</h6>
+                <span class="badge bg-success rounded-pill px-3 shadow-sm">Paid & Confirmed</span>
+              </div>
+              <p class="text-muted small mb-3"><i class="bi bi-person-fill me-1"></i> Student: <span class="fw-bold text-dark">{{ booking.student.name }}</span> <span class="badge bg-success bg-opacity-10 text-success ms-1">New</span></p>
+              <div class="d-flex gap-2 mt-2">
+                <button class="btn btn-sm btn-primary rounded-pill px-4 fw-semibold"><i class="bi bi-camera-video me-1"></i> Open Video Room</button>
+                <button class="btn btn-sm btn-outline-secondary rounded-pill px-4"><i class="bi bi-chat-dots me-1"></i> Message</button>
+              </div>
+            </div>
+          {% endfor %}
+        {% endfor %}
+        
+        <!-- 2. STATIC DEMO PLACEHOLDERS (Always remain at the bottom) -->
+        
+        <!-- Demo Item 1 -->
         <div class="position-relative mb-5 ps-4">
           <div class="position-absolute bg-primary rounded-circle shadow-sm" style="width: 14px; height: 14px; left: 0; top: 6px;"></div>
           <div class="d-flex justify-content-between align-items-start mb-1">
-            <h6 class="fw-bold mb-0">Japanese Conversation (Beginner)</h6>
+            <h6 class="fw-bold mb-0 text-muted">Japanese Conversation (Beginner)</h6>
             <span class="badge bg-primary rounded-pill px-3">Tomorrow, 10:00 AM</span>
           </div>
-          <p class="text-muted small mb-2"><i class="bi bi-person me-1"></i> Student: Sarah Morales</p>
+          <p class="text-muted small mb-3"><i class="bi bi-person me-1"></i> Student: Sarah Morales <span class="badge bg-light text-secondary border ms-1">Demo</span></p>
           <div class="d-flex gap-2 mt-2">
-            <button class="btn btn-sm btn-primary rounded-pill px-3"><i class="bi bi-camera-video me-1"></i> Join Video Room</button>
-            <button class="btn btn-sm btn-outline-secondary rounded-pill px-3"><i class="bi bi-chat-dots me-1"></i> Message</button>
+            <button class="btn btn-sm btn-primary rounded-pill px-4 fw-semibold"><i class="bi bi-camera-video me-1"></i> Join Video Room</button>
+            <button class="btn btn-sm btn-outline-secondary rounded-pill px-4"><i class="bi bi-chat-dots me-1"></i> Message</button>
           </div>
         </div>
 
-        <!-- Timeline Item 2 (Future) -->
+        <!-- Demo Item 2 -->
         <div class="position-relative mb-4 ps-4">
           <div class="position-absolute bg-white border border-2 border-primary rounded-circle" style="width: 14px; height: 14px; left: 0; top: 6px;"></div>
           <div class="d-flex justify-content-between align-items-start mb-1">
-            <h6 class="fw-bold mb-0">Verilog Digital Logic & ModelSim</h6>
+            <h6 class="fw-bold mb-0 text-muted">Verilog Digital Logic & ModelSim</h6>
             <span class="badge bg-light text-dark border rounded-pill px-3">Oct 19, 2:30 PM</span>
           </div>
-          <p class="text-muted small mb-2"><i class="bi bi-person me-1"></i> Student: James Miller</p>
+          <p class="text-muted small mb-3"><i class="bi bi-person me-1"></i> Student: James Miller <span class="badge bg-light text-secondary border ms-1">Demo</span></p>
           <div class="d-flex gap-2 mt-2">
-            <button class="btn btn-sm btn-secondary rounded-pill px-3" disabled><i class="bi bi-camera-video me-1"></i> Not Yet Open</button>
-            <button class="btn btn-sm btn-outline-secondary rounded-pill px-3"><i class="bi bi-chat-dots me-1"></i> Message</button>
+            <button class="btn btn-sm btn-secondary rounded-pill px-4 fw-semibold" disabled><i class="bi bi-camera-video me-1"></i> Not Yet Open</button>
+            <button class="btn btn-sm btn-outline-secondary rounded-pill px-4"><i class="bi bi-chat-dots me-1"></i> Message</button>
           </div>
         </div>
 

@@ -178,12 +178,20 @@ def book_course(course_id):
         return "Only students can book courses. <a href='/dashboard'>Go back</a>"
         
     course = Course.query.get_or_404(course_id)
+
+    # Add this inside your booking route, right after getting the course
+    # (Make sure to change 'Booking' and 'student_id' if your model uses different names)
+    existing_booking = Booking.query.filter_by(student_id=current_user.id, course_id=course.id).first()
+    
+    if existing_booking:
+        flash('You have already booked and paid for this session. Check your dashboard!', 'warning')
+        return redirect('/explore')
     
     if request.method == 'POST':
         schedule_str = request.form.get('schedule_date')
         # Convert the HTML datetime string into a Python datetime object
         schedule_date = datetime.strptime(schedule_str, '%Y-%m-%dT%H:%M')
-        
+
         new_booking = Booking(student_id=current_user.id, course_id=course.id, schedule_date=schedule_date)
         db.session.add(new_booking)
         db.session.commit()
