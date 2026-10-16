@@ -24,15 +24,31 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto align-items-center">
-                    <li class="nav-item"><a class="nav-link" href="/explore">Explore Courses</a></li>
                     
                     {% if current_user.is_authenticated %}
+                        
+                        <!-- Role-Based Quick Action Link -->
+                        {% if current_user.role == 'tutor' %}
+                            <li class="nav-item me-lg-2">
+                                <a class="nav-link text-primary fw-bold" href="/create_course">
+                                    <i class="bi bi-plus-circle me-1"></i>Publish Course
+                                </a>
+                            </li>
+                        {% else %}
+                            <li class="nav-item"><a class="nav-link" href="/explore">Explore Courses</a></li>
+                        {% endif %}
+                        
+                        <!-- Standard Authenticated Links -->
                         <li class="nav-item"><a class="nav-link fw-bold text-dark" href="/dashboard">Dashboard</a></li>
                         <li class="nav-item ms-lg-3"><a class="btn btn-outline-danger btn-sm rounded-pill px-3" href="/logout">Log Out</a></li>
+                        
                     {% else %}
+                        <!-- Logged Out Links -->
+                        <li class="nav-item"><a class="nav-link" href="/explore">Explore Courses</a></li>
                         <li class="nav-item"><a class="nav-link" href="/login">Log In</a></li>
                         <li class="nav-item ms-lg-2"><a class="btn btn-primary rounded-pill px-4" href="/register">Sign Up</a></li>
                     {% endif %}
+                    
                 </ul>
             </div>
         </div>
