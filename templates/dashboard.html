@@ -4,7 +4,7 @@
 
 {% block content %}
 <style>
-  /* 1. Animated Gradient/Mesh Header */
+  /* Animated Mesh Header */
   .mesh-header {
     background: linear-gradient(-45deg, #0d6efd, #6610f2, #0dcaf0, #0d6efd);
     background-size: 400% 400%;
@@ -18,8 +18,6 @@
     50% { background-position: 100% 50%; }
     100% { background-position: 0% 50%; }
   }
-  
-  /* Decorative background circles for the header */
   .mesh-header::before {
     content: '';
     position: absolute;
@@ -30,7 +28,7 @@
     z-index: 0;
   }
 
-  /* 2. Stat Widget Cards with Hover Lift */
+  /* Stat Widget Hover */
   .hover-lift {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
   }
@@ -39,7 +37,7 @@
     box-shadow: 0 15px 30px rgba(0,0,0,0.1) !important;
   }
 
-  /* 3. Subject Cover Images */
+  /* Subject Cover */
   .course-cover {
     height: 160px;
     background-size: cover;
@@ -52,23 +50,19 @@
     border: none;
   }
 
-  /* 4. Illustrated Empty State Container */
+  /* Empty State */
   .empty-state-icon {
-    width: 100px;
-    height: 100px;
+    width: 100px; height: 100px;
     background-color: #f8f9fa;
     border-radius: 50%;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
+    display: inline-flex; align-items: center; justify-content: center;
     margin-bottom: 1.5rem;
     box-shadow: 0 10px 20px rgba(13, 110, 253, 0.1);
   }
 </style>
 
 <div class="container py-4">
-  
-  <!-- The Animated Mesh Header -->
+  <!-- Header -->
   <div class="mesh-header p-5 mb-5 shadow text-white z-1">
     <div class="position-relative" style="z-index: 2;">
       <h1 class="fw-bold display-5 mb-2">Welcome back, {{ current_user.name }}! 👋</h1>
@@ -77,9 +71,7 @@
   </div>
 
   {% if current_user.role == 'student' %}
-  <!-- ================= STUDENT DASHBOARD ================= -->
-  
-  <!-- Stat Widgets -->
+  <!-- STUDENT DASHBOARD -->
   <div class="row g-4 mb-5">
     <div class="col-md-4">
       <div class="card card-rounded shadow-sm h-100 hover-lift">
@@ -123,7 +115,7 @@
   </div>
 
   <div class="row g-4">
-    <!-- Empty State Section -->
+    <!-- Schedule -->
     <div class="col-lg-7">
       <h4 class="fw-bold mb-4">Your Schedule</h4>
       <div class="card card-rounded shadow-sm border-0 h-100">
@@ -132,17 +124,15 @@
             <i class="bi bi-journal-x text-primary" style="font-size: 3rem;"></i>
           </div>
           <h4 class="fw-bold text-dark">Your schedule is clear!</h4>
-          <p class="text-muted mb-4 max-w-sm mx-auto">You don't have any upcoming tutoring sessions booked. Ready to master a new skill?</p>
+          <p class="text-muted mb-4 max-w-sm mx-auto">You don't have any upcoming tutoring sessions booked.</p>
           <a href="/explore" class="btn btn-primary px-5 py-2 fw-semibold rounded-pill hover-lift">Find a Tutor</a>
         </div>
       </div>
     </div>
     
-    <!-- Course Cover Images (Trending/Recommended) -->
+    <!-- Trending -->
     <div class="col-lg-5">
       <h4 class="fw-bold mb-4">Trending Subjects</h4>
-      
-      <!-- Japanese Card -->
       <div class="card card-rounded shadow-sm mb-4 hover-lift">
         <div class="course-cover" style="background-image: url('https://images.unsplash.com/photo-1528164344705-47542853e50b?auto=format&fit=crop&w=600&q=80');"></div>
         <div class="card-body p-3">
@@ -151,8 +141,6 @@
           <p class="text-muted small mb-0">Master conversation and writing.</p>
         </div>
       </div>
-      
-      <!-- Calculus Card -->
       <div class="card card-rounded shadow-sm hover-lift">
         <div class="course-cover" style="background-image: url('https://images.unsplash.com/photo-1635070041078-e363dbe005cb?auto=format&fit=crop&w=600&q=80');"></div>
         <div class="card-body p-3">
@@ -165,10 +153,8 @@
   </div>
 
   {% elif current_user.role == 'tutor' %}
-  <!-- ================= TUTOR DASHBOARD ================= -->
-  
-  <!-- Stat Widgets -->
-  <div class="row g-4 mb-5">
+  <!-- TUTOR DASHBOARD -->
+  <div class="row g-4 mb-4">
     <div class="col-md-4">
       <div class="card card-rounded shadow-sm h-100 hover-lift">
         <div class="card-body p-4 d-flex align-items-center">
@@ -210,13 +196,12 @@
     </div>
   </div>
 
-  <!-- Courses Header & Create Button -->
+  <!-- Tutor Courses Section -->
   <div class="d-flex justify-content-between align-items-center mb-4 mt-5">
     <h4 class="fw-bold mb-0">Your Published Courses</h4>
     <a href="/create_course" class="btn btn-primary px-4 py-2 fw-semibold rounded-pill hover-lift">Publish New Course</a>
   </div>
 
-  <!-- Dynamic Course List or Empty State -->
   {% if current_user.courses %}
     <div class="row g-4">
       {% for course in current_user.courses %}
@@ -230,12 +215,9 @@
             <p class="text-muted small mb-4">{{ course.summary }}</p>
             
             <div class="mt-auto d-flex justify-content-between align-items-center gap-2 pt-3 border-top">
-              <!-- Edit Button Trigger -->
               <button type="button" class="btn btn-sm btn-outline-primary rounded-pill px-3" data-bs-toggle="modal" data-bs-target="#editCourseModal{{ course.id }}">
                 <i class="bi bi-pencil me-1"></i> Edit
               </button>
-
-              <!-- Delete Button Trigger -->
               <button type="button" class="btn btn-sm btn-outline-danger rounded-pill px-3" data-bs-toggle="modal" data-bs-target="#deleteCourseModal{{ course.id }}">
                 <i class="bi bi-trash me-1"></i> Delete
               </button>
@@ -244,7 +226,7 @@
         </div>
       </div>
 
-      <!-- EDIT COURSE MODAL -->
+      <!-- EDIT MODAL -->
       <div class="modal fade" id="editCourseModal{{ course.id }}" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content border-0 shadow">
@@ -276,7 +258,7 @@
         </div>
       </div>
 
-      <!-- DELETE CONFIRMATION MODAL -->
+      <!-- DELETE MODAL -->
       <div class="modal fade" id="deleteCourseModal{{ course.id }}" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content border-0 shadow">
@@ -300,7 +282,6 @@
           </div>
         </div>
       </div>
-
       {% endfor %}
     </div>
   {% else %}
@@ -312,9 +293,40 @@
         </div>
         <h4 class="fw-bold text-dark">No active courses</h4>
         <p class="text-muted mb-4 max-w-sm mx-auto">You haven't published any tutoring subjects yet. Create your first listing to start accepting students!</p>
-        <a href="/create_course" class="btn btn-primary px-5 py-2 fw-semibold rounded-pill hover-lift">Publish a Course</a>
       </div>
     </div>
+  {% endif %}
+
+  {% elif current_user.role == 'admin' %}
+  <!-- ADMIN DASHBOARD -->
+  <div class="row g-4 mb-4">
+    <div class="col-md-6">
+      <div class="card card-rounded shadow-sm h-100 hover-lift bg-dark text-white border-0">
+        <div class="card-body p-4 d-flex align-items-center">
+          <div class="bg-white bg-opacity-10 p-3 rounded-3 me-4">
+            <i class="bi bi-server text-info fs-3"></i>
+          </div>
+          <div>
+            <h6 class="text-gray mb-1 fw-bold opacity-75">Server Status</h6>
+            <h4 class="fw-bold mb-0 text-success">Online & Healthy</h4>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="card card-rounded shadow-sm h-100 hover-lift">
+        <div class="card-body p-4 d-flex align-items-center">
+          <div class="bg-info bg-opacity-10 p-3 rounded-3 me-4">
+            <i class="bi bi-shield-lock text-info fs-3"></i>
+          </div>
+          <div>
+            <h6 class="text-muted mb-1 fw-bold">Master Control</h6>
+            <a href="/admin" class="btn btn-sm btn-outline-info mt-1 rounded-pill px-3">Open Panel</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
   {% endif %}
 
 </div>
