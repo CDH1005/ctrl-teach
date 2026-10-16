@@ -269,5 +269,47 @@ with app.app_context():
         db.session.add_all(new_subjects)
         db.session.commit()
 
+@app.route('/edit_course/<int:course_id>', methods=['POST'])
+def edit_course(course_id):
+    if not current_user.is_authenticated or current_user.role != 'tutor':
+        flash('Unauthorized access.', 'danger')
+        return redirect('/login')
+
+    # Look up the course or 404
+    course = Course.query.get_or_404(course_id)
+
+    # Ensure only the tutor who owns the course can edit it
+    if course.tutor_id != current_user.id:
+        flash('You do not have permission to edit this course.', 'danger')
+        return redirect('/dashboard')
+
+    # Update fields from form input
+    course.title = request.form.get('title')
+    course.summary = request.form.get('summary')
+    course.description = request.form.get('description')
+
+    db.session.commit()
+    flash('Course updated successfully!', 'success')
+    return redirect('/dashboard')
+
+
+@app.route('/delete_course/<int:course_id>', methods=['POST'])
+def delete_course(course_id):
+    if not current_user.is_authenticated or current_user.role != 'tutor':
+        flash('Unauthorized access.', 'danger')
+        return redirect('/login')
+
+    course = Course.query.get_or_404(course_id)
+
+    # Ensure only the tutor who owns the course can delete it
+    if course.tutor_id != current_user.id:
+        flash('You do not have permission to delete this course.', 'danger')
+        return redirect('/dashboard')
+
+    db.session.delete(course)
+    db.session.commit()
+    flash('Course deleted successfully.', 'info')
+    return redirect('/dashboard')
+
 if __name__ == '__main__':
     app.run(debug=True)
