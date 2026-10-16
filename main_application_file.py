@@ -108,16 +108,20 @@ def login():
         email = request.form.get('email')
         password = request.form.get('password')
         
-        # Find the user by email
+        # Look up the user in the database
         user = User.query.filter_by(email=email).first()
         
-        # Check if user exists and password matches
+        # Verify user exists and password matches
+        # Note: Change user.password_hash to user.password if that is your column name
         if user and check_password_hash(user.password_hash, password):
             login_user(user)
-            return redirect(url_for('dashboard'))
+            return redirect(url_for('dashboard')) # Redirects to the dashboard on success
+        else:
+            # This triggers the red alert banner in your new login UI
+            flash('Invalid email or password. Please try again.', 'danger')
+            return redirect('/login')
             
-        return "Invalid email or password. Click back and try again."
-        
+    # If it's a GET request (just visiting the page), show the normal login UI
     return render_template('login.html')
 
 @app.route('/dashboard')
