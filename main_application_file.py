@@ -135,7 +135,7 @@ def logout():
     logout_user()
     return redirect(url_for('home'))
 
-@app.route('/tutor/course/create', methods=['GET', 'POST'])
+@app.route('/create_course', methods=['GET', 'POST'])
 @login_required
 def create_course():
     # Security check: Only let tutors in
