@@ -341,6 +341,106 @@
     </div>
   </div>
 
+  <!-- Public Profile & Reviews Widget -->
+  <div class="row g-4 mb-5">
+    
+    <!-- Left Column: Profile Preview -->
+    <div class="col-lg-5">
+      <div class="card card-rounded shadow-sm border-0 h-100">
+        <div class="card-header bg-white border-bottom py-3">
+          <h5 class="fw-bold mb-0"><i class="bi bi-person-badge text-info me-2"></i> Public Profile Preview</h5>
+        </div>
+        <div class="card-body p-4 text-center d-flex flex-column justify-content-center">
+          <div class="position-relative d-inline-block mx-auto mb-3">
+            <!-- Dynamically generates an avatar based on the tutor's name -->
+            <img src="https://ui-avatars.com/api/?name={{ current_user.name }}&background=0D8ABC&color=fff&size=100" class="rounded-circle shadow-sm" alt="Profile">
+            <span class="position-absolute bottom-0 end-0 bg-success border border-2 border-white rounded-circle" style="width: 20px; height: 20px;"></span>
+          </div>
+          <h4 class="fw-bold mb-1">{{ current_user.name }}</h4>
+          <p class="text-muted small mb-3">Computer Engineering Student & Verified Tutor</p>
+          
+          <div class="d-flex justify-content-center align-items-center gap-2 mb-4">
+            <h2 class="fw-bold mb-0">4.9</h2>
+            <div class="text-warning d-flex">
+              <i class="bi bi-star-fill"></i>
+              <i class="bi bi-star-fill"></i>
+              <i class="bi bi-star-fill"></i>
+              <i class="bi bi-star-fill"></i>
+              <i class="bi bi-star-half"></i>
+            </div>
+            <span class="text-muted small">(24 Reviews)</span>
+          </div>
+          
+          <button class="btn btn-outline-primary rounded-pill w-100 hover-lift" data-bs-toggle="modal" data-bs-target="#profilePreviewModal">
+            Preview Public Page
+          </button>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Right Column: Recent Reviews -->
+    <div class="col-lg-7">
+      <div class="card card-rounded shadow-sm border-0 h-100">
+        <div class="card-header bg-white border-bottom py-3 d-flex justify-content-between align-items-center">
+          <h5 class="fw-bold mb-0"><i class="bi bi-chat-right-quote text-success me-2"></i> Recent Student Reviews</h5>
+          <a href="#" class="text-decoration-none small text-primary fw-semibold">View All</a>
+        </div>
+        <div class="card-body p-0">
+          <ul class="list-group list-group-flush">
+            
+            <!-- Review 1 -->
+            <li class="list-group-item p-4">
+              <div class="d-flex justify-content-between mb-2">
+                <h6 class="fw-bold mb-0">Maria Santos</h6>
+                <div class="text-warning small">
+                  <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                </div>
+              </div>
+              <p class="text-muted small mb-1">"Excellent tutor! Explained the Japanese pitch accents very clearly and provided great graded readers for practice. Highly recommend!"</p>
+              <small class="text-muted fw-semibold" style="font-size: 0.75rem;">Oct 12, 2026 • Japanese Conversation</small>
+            </li>
+            
+            <!-- Review 2 -->
+            <li class="list-group-item p-4">
+              <div class="d-flex justify-content-between mb-2">
+                <h6 class="fw-bold mb-0">James Miller</h6>
+                <div class="text-warning small">
+                  <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-half"></i>
+                </div>
+              </div>
+              <p class="text-muted small mb-1">"Really helped me understand the Verilog concepts I was struggling with in my lab. Walked me through the ModelSim testbenches step-by-step."</p>
+              <small class="text-muted fw-semibold" style="font-size: 0.75rem;">Oct 05, 2026 • Verilog Digital Logic</small>
+            </li>
+            
+          </ul>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+
+  <!-- Profile Preview Modal -->
+  <div class="modal fade" id="profilePreviewModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content border-0 shadow">
+        <div class="modal-header bg-primary text-white border-0">
+          <h5 class="modal-title fw-bold"><i class="bi bi-eye me-2"></i> Public Profile View</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body p-5 text-center">
+          <div class="empty-state-icon mx-auto mb-3" style="width: 80px; height: 80px;">
+            <i class="bi bi-check-circle-fill text-success" style="font-size: 2.5rem;"></i>
+          </div>
+          <h4 class="fw-bold">Looking Good!</h4>
+          <p class="text-muted mb-0">This is a placeholder for your fully rendered public profile page. Once you link a dedicated route, clicking this button will show you exactly what a student sees.</p>
+        </div>
+        <div class="modal-footer border-0 justify-content-center pb-4">
+          <button type="button" class="btn btn-secondary rounded-pill px-5" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Tutor Courses Section -->
   <div class="d-flex justify-content-between align-items-center mb-4 mt-5">
     <h4 class="fw-bold mb-0">Your Published Courses</h4>
